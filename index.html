@@ -2,6 +2,7 @@
 <html lang="pl">
 
 <head>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blade & Bristle | Barber Shop</title>
@@ -147,6 +148,38 @@
 
         .nav-links a:hover {
             color: var(--primary-color);
+        }
+
+        /* Hamburger Menu Button */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--primary-color);
+            margin: 3px 0;
+            transition: 0.3s;
+            display: block;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
         }
 
         /* --- SEKCJA HERO (GŁÓWNA) --- */
@@ -317,23 +350,157 @@
             color: #666;
         }
 
+        /* Desktop Button - hide in mobile menu */
+        nav .nav-links .btn {
+            display: none;
+        }
+
         /* --- RWD (TELEFONY) --- */
         @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 2.5rem;
+            .hamburger {
+                display: flex;
             }
 
             .nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: rgba(17, 17, 17, 0.98);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding-top: 50px;
+                gap: 30px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 1000;
+                border-top: 1px solid #333;
+            }
+
+            .nav-links.active {
+                transform: translateX(0);
+            }
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 15px 0;
+                display: block;
+                width: 100%;
+            }
+
+            nav .desktop-btn {
                 display: none;
             }
 
-            /* Ukryte dla uproszczenia w tym demo */
+            nav .nav-links .btn {
+                display: inline-block;
+                margin-top: 20px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            section {
+                padding: 50px 0;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+                line-height: 1.3;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+                padding: 0 20px;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+
+            .section-title p {
+                font-size: 0.9rem;
+                padding: 0 10px;
+            }
+
             .about-grid {
                 grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .about-text {
+                order: 2;
+            }
+
+            .about-img {
+                order: 1;
+            }
+
+            .price-list {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .price-item {
+                padding: 20px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .gallery-item {
+                height: 200px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
             }
 
             .logo {
+                font-size: 1.3rem;
+            }
+
+            nav {
+                height: 70px;
+            }
+
+            #hero {
+                padding-top: 70px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 1.6rem;
+            }
+
+            .section-title h2 {
                 font-size: 1.5rem;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .price-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .price-cost {
+                font-size: 1.4rem;
             }
         }
     </style>
@@ -346,15 +513,22 @@
         <div class="container">
             <nav>
                 <div class="logo">BLADE & <span style="color:#fff">BRISTLE</span></div>
-                <ul class="nav-links">
-                    <li><a href="#hero">Start</a></li>
-                    <li><a href="#about">O nas</a></li>
-                    <li><a href="#services">Usługi</a></li>
-                    <li><a href="#gallery">Galeria</a></li>
-                    <li><a href="#contact">Kontakt</a></li>
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#hero" onclick="closeMenu()">Start</a></li>
+                    <li><a href="#about" onclick="closeMenu()">O nas</a></li>
+                    <li><a href="#services" onclick="closeMenu()">Usługi</a></li>
+                    <li><a href="#gallery" onclick="closeMenu()">Galeria</a></li>
+                    <li><a href="#contact" onclick="closeMenu()">Kontakt</a></li>
+                    <li><a href="https://booksy.com/pl-pl/96196_zaklady-barberskie-marcin-obrochta_barber-shop_15343_dzierzoniow#ba_s=sr_1" 
+                           onclick="closeMenu()" class="btn">Umów Wizytę</a></li>
                 </ul>
                 <a href="https://booksy.com/pl-pl/96196_zaklady-barberskie-marcin-obrochta_barber-shop_15343_dzierzoniow#ba_s=sr_1"
-                    class="btn">Umów Wizytę</a>
+                    class="btn desktop-btn">Umów Wizytę</a>
             </nav>
         </div>
     </header>
@@ -520,6 +694,69 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Hamburger Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        function toggleMenu() {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            // Prevent body scroll when menu is open
+            if (navLinks.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        function closeMenu() {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        hamburger.addEventListener('click', toggleMenu);
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const isClickInsideNav = navLinks.contains(event.target);
+            const isClickOnHamburger = hamburger.contains(event.target);
+            
+            if (!isClickInsideNav && !isClickOnHamburger && navLinks.classList.contains('active')) {
+                closeMenu();
+            }
+        });
+
+        // Close menu on window resize if it's larger than mobile
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeMenu();
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const headerOffset = 80;
+                        const elementPosition = target.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
 
 </body>
 
